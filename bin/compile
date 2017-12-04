@@ -26,7 +26,7 @@ else
   agent_key=$(cat $ENV_DIR/INSTANA_AGENT_KEY)
   location=$(cat $ENV_DIR/INSTANA_LOCATION)
 
-  echo "deb [arch=amd64] https://_:${INSTANA_AGENT_KEY}@packages.instana.io/agent generic main" >> $APT_SOURCELIST_DIR/instana-agent.list
+  echo "deb [arch=amd64] https://_:${INSTANA_AGENT_KEY}@packages.instana.io/agent generic main" >> $APT_SOURCES
 
   topic "Updating apt caches"
   apt-get $APT_OPTIONS update | indent
