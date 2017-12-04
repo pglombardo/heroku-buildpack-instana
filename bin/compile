@@ -8,8 +8,8 @@ indent() {
   sed -u 's/^/       /'
 }
 
-if [ ! -s $3/INSTANA_AGENT_KEY -o ! -s $3/INSTANA_LOCATION -o ! -s $3/INSTANA_USERNAME -o ! -s $3/INSTANA_PASSWORD ]; then
-  echo "Must set INSTANA_AGENT_KEY, INSTANA_LOCATION, INSTANA_USERNAME and INSTANA_PASSWORD"
+if [ ! -s $3/INSTANA_AGENT_KEY -o ! -s $3/INSTANA_LOCATION  ]; then
+  echo "Must set INSTANA_AGENT_KEY and INSTANA_LOCATION"
   exit 1
 else
   agent_key=$(cat $3/INSTANA_AGENT_KEY)
