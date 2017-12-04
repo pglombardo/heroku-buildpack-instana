@@ -1,6 +1,6 @@
 #!/bin/sh
 
-function topic() {
+topic() {
   echo "-----> $*"
 }
 
@@ -24,12 +24,11 @@ else
   APT_SOURCES="$APT_SOURCELIST_DIR/sources.list"
   APT_OPTIONS="$APT_OPTIONS -o dir::etc::sourcelist=$APT_SOURCES"
 
-  echo "deb [arch=amd64] https://_:${INSTANA_AGENT_KEY}@packages.instana.io/agent generic main" >> $APT_SOURCES
+  echo "deb [arch=amd64] https://_:${INSTANA_AGENT_KEY}@packages.instana.io/agent generic main" >> $APT_SOURCELIST_DIR/instana-agent.list
 
   topic "Updating apt caches"
   apt-get $APT_OPTIONS update | indent
 
-  PACKAGE=instana-agent-static
-  apt-get $APT_OPTIONS -y --force-yes -d install --reinstall $PACKAGE | indent
-
+  topic "Installing Instana agent"
+  apt-get $APT_OPTIONS -y --force-yes -d install --reinstall instana-agent-static | indent
 fi | indent
