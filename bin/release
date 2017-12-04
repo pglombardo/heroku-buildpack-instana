@@ -2,8 +2,4 @@
 
 cat << EOF
 ---
-addons:
-  - heroku-postgresql
-default_process_types:
-  web: bin/node server.js
 EOF

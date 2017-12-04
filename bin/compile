@@ -4,15 +4,11 @@ indent() {
   sed -u 's/^/       /'
 }
 
-echo "-----> Found a hello.txt"
-
-# if hello.txt has contents, display them (indented to align)
-# otherwise error
-
-if [ ! -s $1/hello.txt ]; then
-  echo "hello.txt was empty"
+if [ ! -s $3/INSTANA_AGENT_KEY -o ! -s $3/INSTANA_LOCATION ]; then
+  echo "Must set INSTANA_AGENT_KEY and INSTANA_LOCATION"
   exit 1
 else
-  echo "hello.txt is not empty, here are the contents" | indent
-  cat $1/hello.txt
+  agent_key=$(cat $3/INSTANA_AGENT_KEY)
+  location=$(cat $3/INSTANA_LOCATION)
+  curl -o setup_agent.sh https://setup.instana.io/agent && chmod 700 ./setup_agent.sh && ./setup_agent.sh -a $agent_key -l $location
 fi | indent
