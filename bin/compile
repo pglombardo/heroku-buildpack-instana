@@ -23,10 +23,10 @@ if [ ! -s $ENV_DIR/INSTANA_AGENT_KEY -o ! -s $ENV_DIR/INSTANA_LOCATION  ]; then
   echo "Must set INSTANA_AGENT_KEY and INSTANA_LOCATION"
   exit 1
 else
-  agent_key=$(cat $ENV_DIR/INSTANA_AGENT_KEY)
-  location=$(cat $ENV_DIR/INSTANA_LOCATION)
+  INSTANA_AGENT_KEY=$(cat $ENV_DIR/INSTANA_AGENT_KEY)
+  INSTANA_LOCATION=$(cat $ENV_DIR/INSTANA_LOCATION)
 
-  echo "deb [arch=amd64] https://_:${INSTANA_AGENT_KEY}@packages.instana.io/agent generic main" >> $APT_SOURCES
+  echo "deb [arch=amd64] https://_:${INSTANA_AGENT_KEY}@packages.instana.io/agent generic main" >> $APT_SOURCELIST_DIR/instana-agent.list
 
   topic "Updating apt caches"
   apt-get $APT_OPTIONS update | indent
