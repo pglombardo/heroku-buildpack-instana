@@ -14,16 +14,27 @@ ENV_DIR=$3
 LP_DIR=`cd $(dirname $0); cd ..; pwd`
 
 
-if [ ! -s $ENV_DIR/INSTANA_AGENT_KEY -o ! -s $ENV_DIR/INSTANA_LOCATION  ]; then
-  echo "Must set INSTANA_AGENT_KEY and INSTANA_LOCATION"
+if [ ! -s $ENV_DIR/INSTANA_AGENT_KEY -o ! -s $ENV_DIR/INSTANA_LOCATION -o ! -s $ENV_DIR/INSTANA_USERNAME -o ! -s $ENV_DIR/INSTANA_PASSWORD ]; then
+  echo "Must set INSTANA_AGENT_KEY, INSTANA_LOCATION, INSTANA_USERNAME and INSTANA_PASSWORD"
   exit 1
 else
   INSTANA_AGENT_KEY=$(cat $ENV_DIR/INSTANA_AGENT_KEY)
   INSTANA_LOCATION=$(cat $ENV_DIR/INSTANA_LOCATION)
+  INSTANA_USERNAME=$(cat $ENV_DIR/INSTANA_USERNAME)
+  INSTANA_PASSWORD=$(cat $ENV_DIR/INSTANA_PASSWORD)
+  INSTANA_TENANT=$(cat $ENV_DIR/INSTANA_TENANT)
+  INSTANA_TENANT_UNIT=$(cat $ENV_DIR/INSTANA_TENANT_UNIT)
 
-  curl -O https://_:$INSTANA_AGENT_KEY@packages.instana.io/agent/deb/dists/generic/main/binary-amd64/instana-agent-static_20171205-0308_amd64.deb
+  topic "Installing Instana agent"
 
-  dpkg -x instana-agent-static_20171205-0308_amd64.deb $BUILD_DIR/instana
+  wget --save-cookies instana-cookies.txt --post-data "email=${INSTANA_USERNAME}&password=${INSTANA_PASSWORD}" https://${INSTANA_TENANT_UNIT}-${INSTANA_TENANT}.instana.io/auth/signIn
+  wget --content-disposition --load-cookies instana-cookies.txt --post-data 'type=linux64' https://instana.io/ump/${INSTANA_TENANT}/${INSTANA_TENANT_UNIT}/agent/download -O agent.tar.gz
+
+  tar xf agent.tar.gz -C $BUILD_DIR
+
+  # curl -O https://_:$INSTANA_AGENT_KEY@packages.instana.io/agent/deb/dists/generic/main/binary-amd64/instana-agent-static_20171205-0308_amd64.deb
+
+  # dpkg -x instana-agent-static_20171205-0308_amd64.deb $BUILD_DIR/instana
 
   # topic "Writing profile script"
   # mkdir -p $BUILD_DIR/.profile.d
