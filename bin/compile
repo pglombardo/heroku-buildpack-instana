@@ -25,4 +25,10 @@ else
   wget --quiet --content-disposition --load-cookies instana-cookies.txt --post-data 'type=linux64' https://instana.io/ump/${INSTANA_TENANT}/${INSTANA_TENANT_UNIT}/agent/download -O agent.tar.gz
 
   tar xf agent.tar.gz -C $BUILD_DIR
+
+  profile_dir=$BUILD_DIR/.profile.d
+  instana_start_script=${profile_dir}/instana.sh
+
+  mkdir -p $profile_dir
+  echo "/app/instana-agent/bin/start" >> $instana_start_script
 fi
