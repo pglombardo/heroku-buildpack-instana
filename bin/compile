@@ -25,8 +25,8 @@ else
 
   topic "Installing Instana agent"
 
-  wget --save-cookies instana-cookies.txt --post-data "email=${INSTANA_USERNAME}&password=${INSTANA_PASSWORD}" https://${INSTANA_TENANT_UNIT}-${INSTANA_TENANT}.instana.io/auth/signIn
-  wget --content-disposition --load-cookies instana-cookies.txt --post-data 'type=linux64' https://instana.io/ump/${INSTANA_TENANT}/${INSTANA_TENANT_UNIT}/agent/download -O agent.tar.gz
+  wget --quiet --save-cookies instana-cookies.txt --post-data "email=${INSTANA_USERNAME}&password=${INSTANA_PASSWORD}" https://${INSTANA_TENANT_UNIT}-${INSTANA_TENANT}.instana.io/auth/signIn
+  wget --quiet --content-disposition --load-cookies instana-cookies.txt --post-data 'type=linux64' https://instana.io/ump/${INSTANA_TENANT}/${INSTANA_TENANT_UNIT}/agent/download -O agent.tar.gz
 
-  tar xvf agent.tar.gz -C $BUILD_DIR
+  tar xf agent.tar.gz -C $BUILD_DIR | indent
 fi | indent
