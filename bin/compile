@@ -29,6 +29,14 @@ else
   profile_dir=$BUILD_DIR/.profile.d
   instana_start_script=${profile_dir}/instana.sh
 
+  topic "Installing Java"
+
+  wget --quiet http://cdn.azul.com/zulu/bin/zulu9.0.1.3-jdk9.0.1-linux_x64.tar.gz
+  tar xvf zulu9.0.1.3-jdk9.0.1-linux_x64.tar.gz
+  mv zulu9.0.1.3-jdk9.0.1-linux_x64 $BUILD_DIR/instana-agent/jvm
+
+  topic "Adding Instana to startup"
+
   mkdir -p $profile_dir
   echo "/app/instana-agent/bin/start" >> $instana_start_script
 fi
