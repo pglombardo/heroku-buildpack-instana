@@ -23,11 +23,7 @@ else
 
   wget --quiet --save-cookies instana-cookies.txt --post-data "email=${INSTANA_USERNAME}&password=${INSTANA_PASSWORD}" https://${INSTANA_TENANT_UNIT}-${INSTANA_TENANT}.instana.io/auth/signIn
   wget --quiet --content-disposition --load-cookies instana-cookies.txt --post-data 'type=linux64' https://instana.io/ump/${INSTANA_TENANT}/${INSTANA_TENANT_UNIT}/agent/download -O agent.tar.gz
-
   tar xvf agent.tar.gz -C $BUILD_DIR
-
-  profile_dir=$BUILD_DIR/.profile.d
-  instana_start_script=${profile_dir}/instana.sh
 
   topic "Installing Java"
 
@@ -37,6 +33,8 @@ else
 
   topic "Adding Instana to startup"
 
+  profile_dir=$BUILD_DIR/.profile.d
+  instana_start_script=${profile_dir}/instana.sh
   mkdir -p $profile_dir
   echo "/app/instana-agent/bin/start" >> $instana_start_script
 fi
