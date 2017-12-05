@@ -24,14 +24,15 @@ else
   wget --quiet --save-cookies instana-cookies.txt --post-data "email=${INSTANA_USERNAME}&password=${INSTANA_PASSWORD}" https://${INSTANA_TENANT_UNIT}-${INSTANA_TENANT}.instana.io/auth/signIn
   wget --quiet --content-disposition --load-cookies instana-cookies.txt --post-data 'type=linux64' https://instana.io/ump/${INSTANA_TENANT}/${INSTANA_TENANT_UNIT}/agent/download -O agent.tar.gz
 
-  tar xf agent.tar.gz -C $BUILD_DIR
+  tar xvf agent.tar.gz -C $BUILD_DIR
 
   profile_dir=$BUILD_DIR/.profile.d
   instana_start_script=${profile_dir}/instana.sh
 
   topic "Installing Java"
 
-  curl -C - -LR#OH "Cookie: oraclelicense=accept-securebackup-cookie" -k https://edelivery.oracle.com/otn-pub/java/jdk/9.0.1+11/serverjre-9.0.1_linux-x64_bin.tar.gz
+  java_location=http://download.oracle.com/otn-pub/java/jdk/8u152-b16/aa0333dd3019491ca4f6ddbe78cdb6d0/server-jre-8u152-linux-x64.tar.gz
+  curl -C - -LR#OH "Cookie: oraclelicense=accept-securebackup-cookie" -k $java_location
 
   tar xvf serverjre-9.0.1_linux-x64_bin.tar.gz
   mv jdk-9.0.1 $BUILD_DIR/instana-agent/jvm
