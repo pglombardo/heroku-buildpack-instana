@@ -31,6 +31,10 @@ else
   tar xvf zulu8.25.0.1-jdk8.0.152-linux_x64.tar.gz
   mv zulu8.25.0.1-jdk8.0.152-linux_x64 $BUILD_DIR/instana-agent/jvm
 
+  rm -rf $BUILD_DIR/instana-agent/jvm/sample
+  rm -rf $BUILD_DIR/instana-agent/jvm/src.zip
+  rm -rf $BUILD_DIR/instana-agent/jvm/demo
+
   topic "Writing configfile"
   cat >$BUILD_DIR/instana-agent/etc/instana/configuration.yaml <<EOF
 com.instana.plugin.host:
