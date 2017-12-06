@@ -31,6 +31,17 @@ else
   tar xvf zulu8.25.0.1-jdk8.0.152-linux_x64.tar.gz
   mv zulu8.25.0.1-jdk8.0.152-linux_x64 $BUILD_DIR/instana-agent/jvm
 
+  topic "Writing configfile"
+  cat >$BUILD_DIR/instana-agent/etc/instana/configuration.yaml <<EOF
+com.instana.plugin.host:
+  tags:
+    - 'env:stage'
+    - 'solution:heroku'
+    - 'app:instana-on-heroku'
+    - 'datacenter:heroku'
+    - 'group=heroku-stage'
+EOF
+
   topic "Adding Instana to startup"
 
   profile_dir=$BUILD_DIR/.profile.d
